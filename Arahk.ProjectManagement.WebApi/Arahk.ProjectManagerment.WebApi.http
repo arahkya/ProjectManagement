@@ -1,6 +1,38 @@
-@Arahk.ProjectManager.WebApi_HostAddress = http://localhost:5185
+@Arahk.ProjectManager.WebApi_HostAddress = https://localhost:7242
 
-GET {{Arahk.ProjectManager.WebApi_HostAddress}}/weatherforecast/
+GET {{Arahk.ProjectManager.WebApi_HostAddress}}/project/
 Accept: application/json
 
 ###
+
+GET {{Arahk.ProjectManager.WebApi_HostAddress}}/project/1002
+Accept: application/json
+
+###
+
+POST {{Arahk.ProjectManager.WebApi_HostAddress}}/project
+Content-Type: application/json
+
+{
+    "Name": "Project B",
+    "Description": "This is sample project B",
+    "StartDate": "2025-04-01T12:00:00",
+    "EndDate": "2025-04-30T12:00:00"
+}
+
+###
+PATCH {{Arahk.ProjectManager.WebApi_HostAddress}}/project
+Content-Type: application/json
+
+{
+    "Id": 1,
+    "Name": "Project AA",
+    "Description": "This is sample project AA",
+    "StartDate": "2025-04-01T12:00:00",
+    "EndDate": "2025-04-30T12:00:00",
+    "Status": "Active"
+}
+
+###
+DELETE {{Arahk.ProjectManager.WebApi_HostAddress}}/project/2
+Accept: application/json
