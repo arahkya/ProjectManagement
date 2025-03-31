@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Arahk.ProjectManagement.WebApi.Data;
+using Arahk.ProjectManagement.WebApi.Modules.Project.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Arahk.ProjectManagement.WebApi.Modules.Project;
+namespace Arahk.ProjectManagement.WebApi.Modules.Project.Models;
 
 public class CreateProjectViewModel
 {

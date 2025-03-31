@@ -1,3 +1,4 @@
+using Arahk.ProjectManagement.WebApi.Modules.Project.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
