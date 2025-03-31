@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Arahk.ProjectManagerment.WebApi.Data.Migrations
+namespace Arahk.ProjectManagement.WebApi.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250331063347_Link Project and Project Status")]

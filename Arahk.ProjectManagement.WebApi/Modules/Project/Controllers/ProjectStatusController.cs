@@ -3,7 +3,7 @@ using Arahk.ProjectManagement.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Arahk.ProjectManagement.WebApi.Modules.Project.Models;
 
-namespace Arahk.ProjectManagerment.WebApi.Modules.Project.Controllers;
+namespace Arahk.ProjectManagement.WebApi.Modules.Project.Controllers;
 
 [ApiController]
 [Route("project/status")]

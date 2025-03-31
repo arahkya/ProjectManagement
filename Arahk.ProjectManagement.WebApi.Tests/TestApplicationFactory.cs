@@ -12,32 +12,29 @@ public class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> 
         builder.UseEnvironment("Testing");
         builder.ConfigureServices(services =>
         {
-            // Remove the existing DbContext registration
-            var descriptors = new List<ServiceDescriptor>(services.Where(
-                d => d.ServiceType == typeof(DbContextOptions<AppDbContext>)
-                || d.ServiceType == typeof(AppDbContext)
-                || d.ServiceType.FullName!.Contains("Microsoft.EntityFrameworkCore")));
-
-            foreach (var descriptor in descriptors)
-            {
-                services.Remove(descriptor);
-            }
+            var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkInMemoryDatabase()
+                .BuildServiceProvider();
 
             // Add any test-specific services or configurations here
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseInMemoryDatabase("TestDb");
+                options.UseInternalServiceProvider(serviceProvider);
             });
 
-            SeedProjects();
+            SeedProjects(services.BuildServiceProvider());
         });
     }
 
-    public void SeedProjects()
+    public void SeedProjects(IServiceProvider service)
     {
-        using (var scope = Services.CreateScope())
+        using (var scope = service.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // Ensure the database is created
+            dbContext.Database.EnsureCreated();
 
             // Seed the database with test data
             if (!dbContext.Projects.Any())
@@ -48,6 +45,7 @@ public class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> 
                 {
                     var startDate = DateTime.UtcNow.AddDays(Random.Shared.Next(1, 30));
                     var endDate = startDate.AddDays(Random.Shared.Next(1, 120));
+
                     projects.Add(new ProjectEntity
                     {
                         Name = $"Project {i + 1}",
@@ -57,6 +55,8 @@ public class TestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> 
                         StatusId = Random.Shared.Next(1, 5)
                     });
                 }
+
+                dbContext.Projects.AddRange(projects);
 
                 dbContext.SaveChanges();
             }

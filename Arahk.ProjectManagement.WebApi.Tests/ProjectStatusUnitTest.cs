@@ -1,5 +1,5 @@
 ﻿using Arahk.ProjectManagement.WebApi.Modules.Project.Entities;
-using Arahk.ProjectManager.WebApi;
+using Arahk.ProjectManagement.WebApi;
 
 namespace Arahk.ProjectManagement.WebApi.Tests;
 

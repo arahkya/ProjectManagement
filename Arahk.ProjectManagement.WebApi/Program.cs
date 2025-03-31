@@ -3,7 +3,7 @@ using Arahk.ProjectManagement.WebApi.Data;
 using Arahk.ProjectManagement.WebApi.Modules.Project;
 using Microsoft.EntityFrameworkCore;
 
-namespace Arahk.ProjectManager.WebApi;
+namespace Arahk.ProjectManagement.WebApi;
 
 public class Program
 {
