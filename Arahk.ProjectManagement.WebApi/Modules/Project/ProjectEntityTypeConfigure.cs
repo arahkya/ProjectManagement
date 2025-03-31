@@ -24,8 +24,9 @@ public class ProjectEntityTypeConfigure : IEntityTypeConfiguration<ProjectEntity
         builder.Property(p => p.EndDate)
             .IsRequired();
 
-        builder.Property(p => p.Status)
-            .IsRequired()
-            .HasMaxLength(50);
+        builder.HasOne(p => p.Status)
+            .WithMany()
+            .HasForeignKey(p => p.StatusId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

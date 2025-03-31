@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Arahk.ProjectManagerment.WebApi.Modules.Project;
 
 [ApiController]
-[Route("[controller]")]
-public class ProjectController(AppDbContext context) : ControllerBase
+[Route("project/status")]
+public class ProjectStatusController(AppDbContext context) : ControllerBase
 {
     private readonly AppDbContext _context = context;
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateProjectViewModel model)
+    public async Task<IActionResult> Create([FromBody] CreateProjectStatusViewModel model)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var entity = await model.ToEntity(_context);
+        var entity = model.ToEntity();
 
-        await _context.Projects.AddAsync(entity);
+        await _context.ProjectStatuses.AddAsync(entity);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(Create), new { id = entity.Id }, entity);
@@ -30,7 +30,7 @@ public class ProjectController(AppDbContext context) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var entity = await _context.Projects.Include(p => p.Status).FirstAsync(p => p.Id == id);
+        var entity = await _context.ProjectStatuses.FindAsync(id);
         if (entity == null)
         {
             return NotFound();
@@ -42,28 +42,28 @@ public class ProjectController(AppDbContext context) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var projects = await _context.Projects.Include(p => p.Status).ToListAsync();
+        var projects = await _context.ProjectStatuses.ToListAsync();
 
         return Ok(projects);
     }
 
     [HttpPatch]
-    public async Task<IActionResult> Update([FromBody] UpdateProjectViewModel model)
+    public async Task<IActionResult> Update([FromBody] UpdateProjectStatusViewModel model)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var entity = await _context.Projects.FindAsync(model.Id);
+        var entity = await _context.ProjectStatuses.FindAsync(model.Id);
         if (entity == null)
         {
             return NotFound();
         }
 
-        await model.UpdateEntity(entity, _context);
+        model.UpdateEntity(entity);
 
-        _context.Projects.Update(entity);
+        _context.ProjectStatuses.Update(entity);
         await _context.SaveChangesAsync();
 
         return NoContent();
@@ -72,13 +72,13 @@ public class ProjectController(AppDbContext context) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var entity = await _context.Projects.FindAsync(id);
+        var entity = await _context.ProjectStatuses.FindAsync(id);
         if (entity == null)
         {
             return NotFound();
         }
 
-        _context.Projects.Remove(entity);
+        _context.ProjectStatuses.Remove(entity);
         await _context.SaveChangesAsync();
 
         return NoContent();

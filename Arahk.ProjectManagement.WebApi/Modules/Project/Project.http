@@ -14,8 +14,8 @@ POST {{Arahk.ProjectManager.WebApi_HostAddress}}/project
 Content-Type: application/json
 
 {
-    "Name": "Project B",
-    "Description": "This is sample project B",
+    "Name": "Project A",
+    "Description": "This is sample project A",
     "StartDate": "2025-04-01T12:00:00",
     "EndDate": "2025-04-30T12:00:00"
 }
@@ -34,5 +34,5 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{Arahk.ProjectManager.WebApi_HostAddress}}/project/2
+DELETE {{Arahk.ProjectManager.WebApi_HostAddress}}/project/1
 Accept: application/json

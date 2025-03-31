@@ -1,5 +1,6 @@
 
 using Arahk.ProjectManagement.WebApi.Data;
+using Arahk.ProjectManagement.WebApi.Modules.Project;
 using Microsoft.EntityFrameworkCore;
 
 namespace Arahk.ProjectManager.WebApi;
@@ -20,6 +21,8 @@ public class Program
 
         var app = builder.Build();
 
+        ProjectStatusSeeder.SeedAsync(app.Services).Wait();
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -29,7 +32,6 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
 
         app.MapControllers();
 

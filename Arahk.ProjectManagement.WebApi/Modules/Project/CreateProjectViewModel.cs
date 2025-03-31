@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Arahk.ProjectManagement.WebApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arahk.ProjectManagement.WebApi.Modules.Project;
 
@@ -16,15 +18,25 @@ public class CreateProjectViewModel
 
     public DateTime EndDate { get; set; } = DateTime.MaxValue.Date;
 
-    public ProjectEntity ToEntity()
+    protected async Task<ProjectStatusEntity> LookupProjectStatus(AppDbContext dbContext)
     {
+        var firstStatus = await dbContext.ProjectStatuses.OrderBy(p => p.Order).FirstOrDefaultAsync() ?? throw new ArgumentException($"Status not found.");
+
+        return firstStatus;
+    }
+
+    public async Task<ProjectEntity> ToEntity(AppDbContext dbContext)
+    {
+        var firstStatus = await LookupProjectStatus(dbContext);
+
         return new ProjectEntity
         {
             Name = Name,
             Description = Description,
             StartDate = StartDate,
             EndDate = EndDate,
-            Status = "New"
+            StatusId = firstStatus.Id,
+            Status = firstStatus
         };
     }
 }

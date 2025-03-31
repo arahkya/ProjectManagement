@@ -1,0 +1,33 @@
+@Arahk.ProjectManager.WebApi_HostAddress = https://localhost:7242
+
+GET {{Arahk.ProjectManager.WebApi_HostAddress}}/project/status
+Accept: application/json
+
+###
+
+GET {{Arahk.ProjectManager.WebApi_HostAddress}}/project/status/1
+Accept: application/json
+
+###
+
+POST {{Arahk.ProjectManager.WebApi_HostAddress}}/project/status
+Content-Type: application/json
+
+{
+    "Name": "Active",
+    "Order": 2
+}
+
+###
+PATCH {{Arahk.ProjectManager.WebApi_HostAddress}}/project/status
+Content-Type: application/json
+
+{
+    "Id": 1,
+    "Name": "New",
+    "Order": 1   
+}
+
+###
+DELETE {{Arahk.ProjectManager.WebApi_HostAddress}}/project/status/2
+Accept: application/json
